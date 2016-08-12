@@ -6,7 +6,7 @@
 #define NUMCHANNELS 1
 #define SAMPFREQ 1000//256                      // ADC sampling rate 256
 #define TIMER2VAL (1024/(SAMPFREQ))       // Set 256Hz sampling frequency
-#define NSAMPLES  2                     // numero de samples a tomar antes de imprimir              
+#define NSAMPLES  100                     // numero de samples a tomar antes de imprimir              
 
 // Global constants and variables
 volatile unsigned char currentCh;                       //Current channel being sampled.
@@ -57,13 +57,19 @@ void Timer2_Overflow_ISR()
   for(currentCh=0;currentCh<NUMCHANNELS;currentCh++){
     adc_value = analogRead(currentCh);
     if (adc_value < adc_value_calibres[currentCh]){
-      adc_value = adc_value_calibres[currentCh] + (adc_value_calibres[currentCh] - adc_value);
+      adc_value = adc_value_anterior;
     }
 
-    adc_value = (adc_value+adc_value_anterior)/2;
+    //adc_value = (adc_value+adc_value_anterior)/2;
 
     
-     if (cont >= NSAMPLES) {Serial.println((adc_value+adc_value_anterior)/2);cont = 0;}  //AÑADIDO
+     if (cont >= NSAMPLES) {
+      
+      Serial.println((adc_value+adc_value_anterior)/2);cont = 0;
+      }  //AÑADIDO
+      
+      adc_value = (adc_value+adc_value_anterior)/2;
+      
      cont ++;
     adc_value_anterior = adc_value;
   }
