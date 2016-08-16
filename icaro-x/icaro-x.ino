@@ -5,9 +5,11 @@
 
 // All definitions
 #define NUMCHANNELS 1
+#define NUMSERVOS   5
 #define SAMPFREQ 1000//256                      // ADC sampling rate 256
 #define TIMER2VAL (1024/(SAMPFREQ))       // Set 256Hz sampling frequency
 #define NSAMPLES  100                     // numero de samples a tomar antes de imprimir
+#define LECTURAMAXIMA 200
 unsigned int SERVO = 8;
 
 #define APAGADO 0   //Definicion para sensor apagado
@@ -16,7 +18,10 @@ unsigned int SERVO = 8;
 #define UMBRAL 250
 
 /*********/
-Servo MiServo;
+//Servo MiServo;
+
+Servo servos[NUMSERVOS];
+unsigned int pinServos[NUMSERVOS] = {9,10,11,12,13};
 /*********/
 
 // Global constants and variables
@@ -36,11 +41,17 @@ volatile unsigned int servo_flag = APAGADO;
 //~~~~~~~~~~
 
 void init_hardware_and_variables(){
-  for (int i=0;i<NUMCHANNELS;i++){
+  int i;
+  for (i=0;i<NUMCHANNELS;i++){
     adc_value_calibres[i] = 300;         // Inicio el calibre de todos los canales en 0, arbitrario.
   }
 
-  //pinMode(SERVO,OUTPUT);
+  for (i=0;i<=NUMSERVOS;i++){
+
+    servos[i].attach(pinServos[i]);
+
+  }
+
 }
 
 void setup() {
@@ -50,7 +61,7 @@ void setup() {
  init_hardware_and_variables(); // Inicio del hardware.
 
  /*********/
- MiServo.attach(8);
+ //MiServo.attach(8);
  /*********/
 
  
@@ -91,19 +102,14 @@ void Timer2_Overflow_ISR()
 
     if (cont >= NSAMPLES){
       unsigned int aux = sumador_datos / NSAMPLES;
-      Serial.println((aux));   // Imprimo la integral
+      Serial.println((aux));                        // Imprimo la integral
 
+      for (int i=0;i<NUMSERVOS;i++){
+        servos[i].write( map(aux,0,LECTURAMAXIMA,0,179));
+      }
 
-      MiServo.write( map(aux,0,1023,0,179));
+      //MiServo.write( map(aux,0,LECTURAMAXIMA,0,179));
 
-
-      analogWrite(SERVO,map(aux, 0, 1023, 0, 180));
-      //analogWrite(SERVO,aux);   // Para escritura analogica
-      /*
-      if (aux>0) { digitalWrite(SERVO,HIGH);}
-      else if (aux<=0) { digitalWrite(SERVO,LOW);}
-      */
-      
       cont = 0;
       sumador_datos = 0;
     }
