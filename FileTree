@@ -1,0 +1,29 @@
+.
+├── FileTree
+├── lib
+│   ├── controlador
+│   │   ├── controlador.cpp
+│   │   └── controlador.h
+│   ├── modulo
+│   │   ├── actuador.cpp
+│   │   ├── actuador.h
+│   │   ├── modulo.cpp
+│   │   ├── modulo.h
+│   │   ├── sensor.cpp
+│   │   └── sensor.h
+│   ├── PCA9685
+│   │   ├── library.properties
+│   │   ├── license.txt
+│   │   ├── PCA9685.cpp
+│   │   └── PCA9685.h
+│   ├── readme.txt
+│   └── TicTimer
+│       ├── ticTimer.cpp
+│       └── ticTimer.h
+├── platformio.ini
+├── README.md
+├── src
+│   └── main.cpp
+└── Timer2 calculadora.ods
+
+6 directories, 20 files

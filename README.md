@@ -1,10 +1,6 @@
-# Icaro-X
-#### Lista de implementaciones  
-**+** hecho  
-**-** por hacer
-* (**+**)Seteo de sensores EKG/EMG.
-* (**+**)Calibrar canales EKG/EMG.
-* (**+**)Limpiar señal.
-* (**-**)Lógica de interpretación de señales.
-* (**+**)Manejo de servos.
-* (**-**)Lógica de respuesta a señales.
+# IcaroX
+El proyecto **IcaroX** orientado a objetos.  
+
+Adopta **Platformio & Atom** como ecosistema de desarrollo.   
+
+El sistema está organizado en bloques que guian al sistema en base a su interacción.
